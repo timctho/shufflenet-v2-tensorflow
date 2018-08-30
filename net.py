@@ -4,13 +4,15 @@ class ShuffleNetV2():
 
     first_conv_channel = 24
 
-    def __init__(self, input_holder, cls, model_scale=1.0, shuffle_group=2):
+    def __init__(self, input_holder, cls, model_scale=1.0, shuffle_group=2, is_training=True):
         self.input = input_holder
         self.output = None
         self.cls = cls
         self.shuffle_group = shuffle_group
         self.channel_sizes = self._select_channel_size(model_scale)
-        self._build_model()
+
+        with slim.arg_scope([slim.batch_norm], is_training=is_training):
+            self._build_model()
 
     def _select_channel_size(self, model_scale):
         # [(out_channel, repeat_times), (out_channel, repeat_times), ...]
