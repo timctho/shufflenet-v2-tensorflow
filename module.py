@@ -7,7 +7,7 @@ def shuffle_unit(x, groups):
     with tf.variable_scope('shuffle_unit'):
         n, h, w, c = x.get_shape().as_list()
         x = tf.reshape(x, shape=tf.convert_to_tensor([tf.shape(x)[0], h, w, groups, c // groups]))
-        x = tf.transpose(x, tf.convert_to_tensor([tf.shape(x)[0], 1, 2, 4, 3]))
+        x = tf.transpose(x, tf.convert_to_tensor([0, 1, 2, 4, 3]))
         x = tf.reshape(x, shape=tf.convert_to_tensor([tf.shape(x)[0], h, w, c]))
     return x
 
